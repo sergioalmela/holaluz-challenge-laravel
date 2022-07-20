@@ -3,6 +3,13 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Storage;
+use Src\Reading\Application\DetectReadingUseCase;
+use Src\Reading\Application\GetMedianUseCase;
+use Src\Reading\Application\ReadFileUseCase;
+use Src\Reading\Domain\Exceptions\ExtensionNotFound;
+use Src\Reading\Infrastructure\CsvReaderController;
+use Src\Reading\Infrastructure\XmlReaderController;
 
 class DetectReadings extends Command
 {
@@ -27,6 +34,30 @@ class DetectReadings extends Command
      */
     public function handle()
     {
-        return 0;
+        $fileName = $this->argument('fileName');
+
+        $path = Storage::disk('local')->path('public/readings/' . $fileName);
+
+        $extension = strtolower(pathinfo($path, PATHINFO_EXTENSION));
+
+        match ($extension) {
+            'csv' => $reader = new CsvReaderController(),
+            'xml' => $reader = new XmlReaderController(),
+            default => throw new ExtensionNotFound('File not found'),
+        };
+
+        $readerUseCase = new ReadFileUseCase($reader);
+
+        $readings = $readerUseCase->execute($path);
+
+        $medianUseCase = new GetMedianUseCase();
+        $median = $medianUseCase->execute($readings);
+
+        $detectReadingUseCase = new DetectReadingUseCase();
+        $suplicious_readings = $detectReadingUseCase->execute($readings, $median);
+
+        // Print to table
+
+        return 1;
     }
 }
