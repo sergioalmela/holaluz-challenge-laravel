@@ -2,6 +2,8 @@
 
 namespace Src\Reading\Domain\ValueObjects;
 
+use Src\Reading\Domain\Exceptions\IncorrectReading;
+
 final class Reading
 {
     private int $reading;
@@ -24,8 +26,12 @@ final class Reading
      */
     public function setReading(int $reading): void
     {
-        $this->reading = $reading;
-    }
+        if ($reading >= 0) {
+            $this->reading = $reading;
+            return;
+        }
 
+        throw new IncorrectReading("Reading value should be positive, $reading is not positive");
+    }
 
 }

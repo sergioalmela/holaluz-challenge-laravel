@@ -2,26 +2,28 @@
 
 namespace Src\Reading\Domain\ValueObjects;
 
+use Src\Reading\Domain\Exceptions\IncorrectMedian;
+
 final class Median
 {
     private int $median;
-    private float $INCREMENT = 1.50;
-    private float $DECREMENT = 0.50;
 
-    public function topValue()
+    // Add 50% to the median to get the upper limit.
+    public function topValue(): int
     {
-        return $this->median * $this->INCREMENT;
+        return $this->median * 1.50;
     }
 
-    public function bottomValue()
+    // Subtract 50% to the median to get the lower limit.
+    public function bottomValue(): int
     {
-        return $this->median * $this->DECREMENT;
+        return $this->median * 0.50;
     }
 
     /**
      * @return int
      */
-    public function median(): int
+    public function value(): int
     {
         return $this->median;
     }
@@ -31,7 +33,12 @@ final class Median
      */
     public function setMedian(int $median): void
     {
-        $this->median = $median;
+        if ($median >= 0) {
+            $this->median = $median;
+            return;
+        }
+
+        throw new IncorrectMedian("Median value should be positive, $median is not positive");
     }
 
 }

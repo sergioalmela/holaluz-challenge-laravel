@@ -6,15 +6,17 @@ use Src\Reading\Domain\ValueObjects\Median;
 
 final class GetMedianUseCase
 {
+
+    /**
+     * Return an array of median values for each reading
+     * @param array $readings
+     * @return array
+     */
     public function execute(array $readings): array
     {
-        if (empty($readings)) {
-            return 0;
-        }
-
         $reading_values = [];
 
-        foreach ($readings as $key => $reading) {
+        foreach ($readings as $reading) {
             $reading_values[$reading->id()->value()][] = $reading->reading()->value();
         }
 

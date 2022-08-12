@@ -15,13 +15,14 @@ final class CsvReaderController implements ReaderRepository
         $readings = [];
 
         if (($open = fopen($path, "r")) !== FALSE) {
-            fgetcsv($open, 1000, ",");
+            // Get the first line of headers
+            $headers = fgetcsv($open, 1000, ",", "'");
 
-            while (($data = fgetcsv($open, 1000, ",", "'")) !== FALSE) {
+            while (($data = fgetcsv($open, 1000, ",")) !== FALSE) {
                 $reading = new ReaderEntity(
                     new ClientId($data[0]),
                     new Period($data[1]),
-                    new Reading((int) $data[2])
+                    new Reading((int)$data[2])
                 );
                 $readings[] = $reading;
             }

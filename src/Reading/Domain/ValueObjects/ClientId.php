@@ -24,12 +24,13 @@ final class ClientId
     /**
      * @param string|null $id
      */
-    public function setId($id): void
+    public function setId(?string $id): void
     {
-        if (!($id)) {
-            throw new IdNotFound('Id not found: ');
+        if (!$id) {
+            throw new IdNotFound($id);
         }
 
         $this->id = $id;
     }
+
 }

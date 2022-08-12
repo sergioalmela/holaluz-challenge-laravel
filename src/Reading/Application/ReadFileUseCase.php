@@ -13,7 +13,7 @@ final class ReadFileUseCase
         $this->readerRepository = $readerRepository;
     }
 
-    public function execute(string $path)
+    public function execute(string $path): array
     {
         return $this->readerRepository->read($path);
     }

@@ -28,11 +28,11 @@ final class ReaderEntity
     }
 
     /**
-     * @param ClientId $id
+     * @return ClientId
      */
-    public function setId(ClientId $id): void
+    public function getId(): ClientId
     {
-        $this->id = $id;
+        return $this->id;
     }
 
     /**
@@ -44,11 +44,11 @@ final class ReaderEntity
     }
 
     /**
-     * @param Period $period
+     * @return Period
      */
-    public function setPeriod(Period $period): void
+    public function getPeriod(): Period
     {
-        $this->period = $period;
+        return $this->period;
     }
 
     /**
@@ -60,10 +60,19 @@ final class ReaderEntity
     }
 
     /**
-     * @param Reading $reading
+     * @return Reading
      */
-    public function setReading(Reading $reading): void
+    public function getReading(): Reading
     {
-        $this->reading = $reading;
+        return $this->reading;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->getId(),
+            'period' => $this->getPeriod(),
+            'reading' => $this->getReading()
+        ];
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Src\Reading\Domain\Exceptions;
 
-final class IdNotFound extends \DomainException
+final class IncorrectMedian extends \DomainException
 {
 
 }

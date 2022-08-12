@@ -1,13 +1,10 @@
-## How tu execute
-Execute `vendor/bin/sail up`
-`vendor/bin/sail composer install`
+## How to execute
+Execute:
+- `vendor/bin/sail up`
+- `vendor/bin/sail composer install`
 
 To run the command, run with (for example): `readings:detect {fileName}`
+- `vendor/bin/sail php artisan readings:detect 2016-readings.csv`
 
-## Next steps
-- Ensure suplicious readings are correct (WIP)
-- Comment functions
-- Ensure we are using PSR-12
-- Implement XML Reader
-- Check with another Reader, for example FTP
-- TESTING (Unit tests)
+To execute tests, run php artisan test
+- vendor/bin/sail php artisan test

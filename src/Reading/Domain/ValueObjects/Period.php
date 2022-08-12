@@ -2,13 +2,15 @@
 
 namespace Src\Reading\Domain\ValueObjects;
 
+use Carbon\Carbon;
+
 final class Period
 {
     private string $period;
 
     public function __construct(string $period)
     {
-        $this->setPeriod($period);
+        $this->period = $period;
     }
 
     /**
@@ -20,9 +22,17 @@ final class Period
     }
 
     /**
+     * @return String
+     */
+    public function month(): string
+    {
+        return Carbon::parse($this->period)->format('M');
+    }
+
+    /**
      * @param string $period
      */
-    public function setPeriod($period): void
+    public function setPeriod(string $period): void
     {
         $this->period = $period;
     }
